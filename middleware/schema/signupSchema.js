@@ -1,7 +1,7 @@
 const { checkSchema } = require("express-validator");
 const User = require("../../models/user");
 
-const signUpValidator = checkSchema({
+const signupSchema = checkSchema({
   name: {
     notEmpty: {
       errorMessage: "Enter your name",
@@ -19,12 +19,12 @@ const signUpValidator = checkSchema({
       options: async (value, { req }) => {
         const isUser = await User.findOne({
           where: {
-            user_email: email,
+            user_email: value,
           },
         });
-
+        console.log(isUser);
         if (isUser) {
-          Promise.reject("Email already exits");
+          throw new Error("Email already exist");
         }
 
         return true;
@@ -57,4 +57,4 @@ const signUpValidator = checkSchema({
   },
 });
 
-module.exports = signUpValidator;
+module.exports = signupSchema;

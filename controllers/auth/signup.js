@@ -3,6 +3,8 @@ const User = require("../../models/user");
 const resRenderError = require("../../utils/resRenderError");
 const validatorErrMsg = require("../../utils/validatorErrMsg");
 
+const bcrypt = require("bcryptjs");
+
 exports.getSignUp = (req, res, next) => {
   const flashdata = req.flash("flashdata");
 
@@ -20,49 +22,52 @@ exports.getSignUp = (req, res, next) => {
 };
 
 exports.postSignUp = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password, password2 } = req.body;
 
   const errors = validationResult(req);
   const flashValidator = validatorErrMsg(errors.array());
 
+  const flashdata = req.flash("flashdata");
+
   if (!errors.isEmpty()) {
-    return resRenderError(res, "auth/sign-up", "Login", {
+    return resRenderError(res, "auth/sign-up", "Singup", {
       path: "/login",
       flashdata: flashdata,
       inputsVal: req.body,
       errors: flashValidator,
     });
   }
-  // const user = await User.findOne({ where: { user_email: email } });
-  // if (!user) {
-  //   req.flash("flashdata", {
-  //     type: "error",
-  //     message: "Email not found",
-  //   });
-  //   res.redirect("/auth/login");
-  //   return;
-  // }
 
-  // if (password !== user.user_password) {
-  //   req.flash("flashdata", {
-  //     type: "error",
-  //     message: "Wrong password",
-  //   });
-  //   res.redirect("/auth/login");
-  //   return;
-  // }
+  const hashedPassword = await bcrypt.hash(password, 12);
 
-  // req.session.isLoggedIn = true;
-  // req.session.user = user;
+  // console.log(req.body, hashedPassword);
 
-  // return req.session.save(err => {
-  //   if (err) {
-  //     req.flash("flashdata", {
-  //       type: "error",
-  //       message: "Failed to login",
-  //     });
-  //     res.redirect("/login");
-  //   }
-  //   res.redirect("/dashboard");
-  // });
+  const user = await new User({
+    user_name: name,
+    user_email: email,
+    user_password: hashedPassword,
+    user_photo:
+      "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
+    user_roleId: 1,
+    roleRoleId: 1,
+  });
+
+  return user
+    .save()
+    .then(result => {
+      res.json({
+        status: 200,
+        message: "Success create account",
+        result: result,
+      });
+    })
+    .catch(err => {
+      if (err) {
+        req.flash("flashdata", {
+          type: "error",
+          message: "Failed to sing up",
+        });
+        res.redirect("/auth/signup");
+      }
+    });
 };
