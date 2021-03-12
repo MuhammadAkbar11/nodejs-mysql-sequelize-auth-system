@@ -65,9 +65,17 @@ app.use(async (req, res, next) => {
     return next();
   }
 
-  const user = await User.findOne({
+  const getUser = await User.findOne({
     where: { user_email: req.session.user.user_email },
   });
+
+  const userCreatedData = new Date(getUser.user_created);
+  const userCreatedFormat = new Intl.DateTimeFormat("id-ID", {
+    dateStyle: "full",
+  }).format(userCreatedData.user_created);
+  getUser.dataValues.user_created_format = userCreatedFormat;
+
+  const user = getUser;
 
   if (!user) {
     return next();
@@ -82,10 +90,11 @@ app.use(pageRoutes);
 Roles.hasMany(User);
 User.belongsTo(Roles, {
   foreignKey: "user_roleId",
+  constraints: true,
+  onDelete: "CASCADE",
 });
 
 (async () => {
   await sequelize.sync();
-
   app.listen(PORT, () => console.log(`Server Running on port ${PORT}`));
 })();
