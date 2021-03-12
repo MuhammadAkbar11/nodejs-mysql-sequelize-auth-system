@@ -10,10 +10,6 @@ module.exports = {
       __dirname,
       "node_modules/bootstrap/dist/js/bootstrap.js"
     ),
-    "feather-icons": path.resolve(
-      __dirname,
-      "node_modules/feather-icons/dist/feather.min.js"
-    ),
   },
   watch: true,
   watchOptions: {
