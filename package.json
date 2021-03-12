@@ -1,5 +1,5 @@
 {
-  "name": "system-login-nodejs-mysql",
+  "name": "boilerplate-auth-system-nodejs-mysql-sequelize",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
