@@ -55,11 +55,11 @@ exports.postSignUp = async (req, res) => {
   return user
     .save()
     .then(result => {
-      res.json({
-        status: 200,
+      req.flash("flashdata", {
+        type: "success",
         message: "Success create account",
-        result: result,
       });
+      res.redirect("/auth/login");
     })
     .catch(err => {
       if (err) {
