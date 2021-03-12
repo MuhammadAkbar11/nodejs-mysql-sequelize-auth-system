@@ -1,20 +1,22 @@
-# Simple Auth System BoilerPlate using Nodejs Mysql Sequelize
+## Simple Auth System BoilerPlate using Nodejs Mysql Sequelize
 
-## Installation
+<br><br>
 
-### Install Dependencies
+### Instructions
+
+#### Install Dependencies
 
 ```sh
 $ yarn install
 ```
 
-### Compile Styles
+#### Compile Styles
 
 ```sh
 $ yarn run compile-styles
 ```
 
-### Run Server
+#### Run Server
 
 ```sh
 $ yarn start
