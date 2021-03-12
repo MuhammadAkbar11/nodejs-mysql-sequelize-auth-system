@@ -1,0 +1,25 @@
+<%- include('layouts/head.ejs') %>
+<div class="container-fluid h-100 w-100 bg-light">
+  <div class="row h-100 w-100">
+    <div class="col-sm-6 col-md-5 col-lg-4 my-auto mx-auto">
+      <div class="card shadow-sm bg-light border-1 px-2 py-3 rounded-0">
+        <div class="card-body  d-flex justify-content-center flex-column align-items-center">
+          <div> <img class="rounded-circle" src="/uploads/profile/anonim.png" height="100" alt=""></div>
+          <div class="card-title mt-4 fs-5 mb-0"><%= user.user_name %> </div>
+          <h6 class=""><%= user.user_email %></h6>
+          <small class=" text-muted"><%= user.user_created_format %> </small>
+          <div class="mt-4">
+            <button class="btn btn-primary rounded-0">Update Profile</button>
+          </div>
+        </div>
+      </div>
+      <div class=" mt-3 text-center">
+        <form action="/auth/logout" method="POST">
+          <button class="btn btn-link" type="submit">logout</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+<%- include('layouts/end.ejs') %>

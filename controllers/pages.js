@@ -3,6 +3,17 @@ exports.getIndex = (req, res) => {
 };
 
 exports.getDashboard = (req, res) => {
-  console.log(req.session.user.user_name);
-  res.render("dashboard", {});
+  req.user
+    .getRole()
+    .then(result => {
+      const user = {
+        ...req.user.get(),
+        role_name: result.role_name,
+      };
+      res.render("dashboard", {
+        pageTitle: "Dashboard",
+        user: user,
+      });
+    })
+    .catch(err => console.log(err));
 };
