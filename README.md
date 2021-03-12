@@ -1,6 +1,8 @@
+<br><br>
+
 ## Simple Auth System BoilerPlate using Nodejs Mysql Sequelize
 
-<br><br>
+<br>
 
 ### Instructions
 
